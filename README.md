@@ -1,8 +1,6 @@
-# vite-task-tracker
-
-Task tracker in React, build with Vite
-
 # React + Vite
+
+Task tracker in React, build with Vite, following this tutorial https://www.youtube.com/watch?v=w7ejDZ8SWv8&t
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
