@@ -3,7 +3,8 @@ import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 import { useState, useEffect } from "react";
 import Footer from "./components/Footer";
-import About from "./components/About";
+import ResetButton from "./components/ResetButton";
+import { tasks as Backup } from "../db-backup.json";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -43,6 +44,15 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  //Delete all tasks
+  const deleteAllTasks = async () => {
+    const data = await fetchTasks();
+    for (let i = 1; i <= data.length; i++) {
+      await fetch(`http://localhost:3003/tasks/${i}`, { method: "DELETE" });
+      console.log("Deleted tasks #", i);
+    }
+  };
+
   //Toggle reminder
   const toggleReminder = async (id) => {
     const taskToToggle = await fetchTask(id);
@@ -73,10 +83,31 @@ function App() {
     });
 
     const data = await res.json();
-
-    // const id = Math.floor(Math.random() * 10000) + 1;
-    // const newTask = { id, ...task };
     setTasks([...tasks, data]);
+  };
+
+  //copy backup
+  const copyBackup = async () => {
+    //ISSue here
+    for (let i = 0; i <= Backup.length - 1; i++) {
+      console.log(i);
+      const res = await fetch(`http://localhost:3003/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(Backup[i]),
+      });
+      const data = await res.json();
+      setTasks([...tasks, data]);
+    }
+  };
+
+  const resetTasks = async () => {
+    await deleteAllTasks();
+    await copyBackup();
+    const tasksFromServer = await fetchTasks();
+    setTasks(tasksFromServer);
   };
 
   return (
@@ -91,6 +122,7 @@ function App() {
       ) : (
         <h3 className="task">No tasks to show</h3>
       )}
+      <ResetButton onClick={resetTasks} />
       <Footer />
     </div>
   );
