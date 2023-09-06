@@ -17,6 +17,12 @@
       "text": "Food shopping",
       "day": "Feb 5th at 1:30pm",
       "reminder": false
+    },
+    {
+      "id": 4,
+      "text": "Walk the dog",
+      "day": "Feb 7th at 1:30pm",
+      "reminder": false
     }
   ]
 }

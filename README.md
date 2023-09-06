@@ -10,3 +10,5 @@ To run locally:
 - `npm i`
 - `npm run dev` to start the app locally to port 3000
 - in another terminal tab, `npm run server` to start json-server (mock REST API) on port 3003
+
+Note: the db works fine locally, but not on Gihub pages as it's only for static pages
