@@ -4,10 +4,14 @@ import "./loadEnvironment.mjs";
 import router from "./routes/tasks.mjs";
 import db from "./db/conn.mjs";
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 8000;
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000" // frontend URI (ReactJS)
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/tasks", router);

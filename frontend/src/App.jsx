@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import ResetButton from "./components/ResetButton";
 import { tasks as Backup } from "../db-backup.json";
 
-const serverPort = 3000;
+const serverPort = 8000;
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
