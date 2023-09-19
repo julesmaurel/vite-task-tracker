@@ -4,7 +4,7 @@ import "./loadEnvironment.mjs";
 import router from "./routes/tasks.mjs";
 import db from "./db/conn.mjs";
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3003;
 const app = express();
 
 app.use(cors());

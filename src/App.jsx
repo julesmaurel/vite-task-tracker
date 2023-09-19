@@ -6,6 +6,8 @@ import Footer from "./components/Footer";
 import ResetButton from "./components/ResetButton";
 import { tasks as Backup } from "../db-backup.json";
 
+const serverPort = 3000;
+
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -21,7 +23,7 @@ function App() {
 
   //Fetch tasks
   const fetchTasks = async () => {
-    const response = await fetch("http://localhost:3003/tasks");
+    const response = await fetch(`http://localhost:${serverPort}/tasks`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -32,7 +34,7 @@ function App() {
 
   //Fetch a singular task
   const fetchTask = async (id) => {
-    const response = await fetch(`http://localhost:3003/tasks/${id}`);
+    const response = await fetch(`http://localhost:${serverPort}/tasks/${id}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -42,7 +44,9 @@ function App() {
 
   //Delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:3003/tasks/${id}`, { method: "DELETE" });
+    await fetch(`http://localhost:${serverPort}/tasks/${id}`, {
+      method: "DELETE",
+    });
     setTasks(tasks.filter((task) => task._id !== id));
   };
 
@@ -59,7 +63,7 @@ function App() {
     const taskToToggle = await fetchTask(id);
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
-    await fetch(`http://localhost:3003/tasks/${id}`, {
+    await fetch(`http://localhost:${serverPort}/tasks/${id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -75,7 +79,7 @@ function App() {
 
   //Add task
   const addTask = async (task) => {
-    const res = await fetch(`http://localhost:3003/tasks`, {
+    const res = await fetch(`http://localhost:${serverPort}/tasks`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -93,7 +97,7 @@ function App() {
   const copyBackup = async () => {
     for (let i = 0; i <= Backup.length - 1; i++) {
       console.log(i);
-      const res = await fetch(`http://localhost:3003/tasks`, {
+      const res = await fetch(`http://localhost:${serverPort}/tasks`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
