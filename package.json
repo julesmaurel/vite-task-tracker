@@ -3,15 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "src/main.jsx",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "install": "npm i && npm run install:be",
-    "install:be": "cd server && npm install",
-    "start": "concurrently \"npm run dev\" \"npm run start:be\"",
-    "start:be": "cd server && node server.mjs"
+    "start": "cd server && npm i && node server.mjs"
   },
   "dependencies": {
     "react": "^18.2.0",
