@@ -82,9 +82,11 @@ function App() {
       },
       body: JSON.stringify(task),
     });
-
     const data = await res.json();
-    setTasks([...tasks, data]);
+    if (!data.acknowledged) {
+      throw new Error("Failed to create task");
+    }
+    setTasks([...tasks, task]);
   };
 
   //copy backup
