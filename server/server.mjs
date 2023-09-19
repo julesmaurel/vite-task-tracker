@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000" || process.env.CYCLIC_URL,
+  origin: ["http://localhost:3000" , process.env.CYCLIC_URL],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }
 
