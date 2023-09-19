@@ -14,6 +14,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.static('./frontend/dist'));
+
 
 app.use("/tasks", router);
 
