@@ -13,6 +13,7 @@ function App() {
   useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
+      console.log(tasksFromServer);
       setTasks(tasksFromServer);
     };
     getTasks();
@@ -25,6 +26,7 @@ function App() {
       throw new Error("Network response was not ok");
     }
     const data = response.json();
+    console.log(data);
     return data;
   };
 
@@ -41,15 +43,14 @@ function App() {
   //Delete task
   const deleteTask = async (id) => {
     await fetch(`http://localhost:3003/tasks/${id}`, { method: "DELETE" });
-    setTasks(tasks.filter((task) => task.id !== id));
+    setTasks(tasks.filter((task) => task._id !== id));
   };
 
   //Delete all tasks
   const deleteAllTasks = async () => {
     const data = await fetchTasks();
     for (let i = 1; i <= data.length; i++) {
-      await fetch(`http://localhost:3003/tasks/${i}`, { method: "DELETE" });
-      console.log("Deleted tasks #", i);
+      await deleteTask(data[i - 1]._id);
     }
   };
 
@@ -59,7 +60,7 @@ function App() {
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
     await fetch(`http://localhost:3003/tasks/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-type": "application/json",
       },
@@ -67,7 +68,7 @@ function App() {
     });
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task._id === id ? { ...task, reminder: !task.reminder } : task
       )
     );
   };
@@ -88,7 +89,6 @@ function App() {
 
   //copy backup
   const copyBackup = async () => {
-    //ISSue here
     for (let i = 0; i <= Backup.length - 1; i++) {
       console.log(i);
       const res = await fetch(`http://localhost:3003/tasks`, {

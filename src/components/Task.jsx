@@ -1,17 +1,32 @@
 import { FaTimes } from "react-icons/fa";
+import { useState } from "react";
 
 const Task = ({ task, onDelete, onToggle }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   return (
     <div
       className={`task ${task.reminder ? "reminder" : ""}`}
-      onDoubleClick={() => onToggle(task.id)}
+      onDoubleClick={() => onToggle(task._id)}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
     >
       <h3>
         {task.text}
-        <FaTimes
-          style={{ color: "red", cursor: "pointer" }}
-          onClick={() => onDelete(task.id)}
-        />
+        {isHovering && (
+          <FaTimes
+            style={{ color: "red", cursor: "pointer" }}
+            onClick={() => onDelete(task._id)}
+          />
+        )}
       </h3>
       <p>{task.day}</p>
     </div>
