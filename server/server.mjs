@@ -6,7 +6,7 @@ import "./loadEnvironment.mjs";
 import router from "./routes/tasks.mjs";
 import db from "./db/conn.mjs";
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
