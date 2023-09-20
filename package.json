@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "task tracker with MERN stack",
   "scripts": {
-    "start": "cd ../server && npm i && node server.mjs",
+    "start": "cd server && npm i && node server.mjs",
     "build": "cd frontend && npm i && npm run build",
     "dev": "concurrently \"cd server && npm i && npm run start\" \"cd frontend && npm i && npm run start\""
   },
