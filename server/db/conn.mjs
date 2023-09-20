@@ -4,14 +4,21 @@ const connectionString = process.env.ATLAS_URI || "";
 
 const client = new MongoClient(connectionString);
 
-let conn;
-try {
-  conn = await client.connect();
-  console.log('Connected to Mongo DB')
-} catch(e) {
-  console.error(e);
+let db;
+
+export const connectDB = async() => {
+  try {
+    const conn = await client.connect();
+    console.log('Connected to Mongo DB')
+    db = client.db("sample_training")
+  } catch(e) {
+    console.error(e);
+  }
 }
 
-let db = conn.db("sample_training");
+export { db }
 
-export default db;
+export default {
+  db,
+  connectDB
+}
