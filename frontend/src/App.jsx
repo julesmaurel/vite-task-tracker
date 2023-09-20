@@ -23,7 +23,7 @@ function App() {
 
   //Fetch tasks
   const fetchTasks = async () => {
-    const response = await fetch(`http://localhost:${serverPort}/tasks`);
+    const response = await fetch(`${process.env.BASE_URL}:${serverPort}/tasks`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -34,7 +34,9 @@ function App() {
 
   //Fetch a singular task
   const fetchTask = async (id) => {
-    const response = await fetch(`http://localhost:${serverPort}/tasks/${id}`);
+    const response = await fetch(
+      `${process.env.BASE_URL}:${serverPort}/tasks/${id}`
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -44,7 +46,7 @@ function App() {
 
   //Delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:${serverPort}/tasks/${id}`, {
+    await fetch(`${process.env.BASE_URL}:${serverPort}/tasks/${id}`, {
       method: "DELETE",
     });
     setTasks(tasks.filter((task) => task._id !== id));
@@ -63,7 +65,7 @@ function App() {
     const taskToToggle = await fetchTask(id);
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
-    await fetch(`http://localhost:${serverPort}/tasks/${id}`, {
+    await fetch(`${process.env.BASE_URL}:${serverPort}/tasks/${id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -79,7 +81,7 @@ function App() {
 
   //Add task
   const addTask = async (task) => {
-    const res = await fetch(`http://localhost:${serverPort}/tasks`, {
+    const res = await fetch(`${process.env.BASE_URL}:${serverPort}/tasks`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -97,7 +99,7 @@ function App() {
   const copyBackup = async () => {
     for (let i = 0; i <= Backup.length - 1; i++) {
       console.log(i);
-      const res = await fetch(`http://localhost:${serverPort}/tasks`, {
+      const res = await fetch(`${process.env.BASE_URL}:${serverPort}/tasks`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
