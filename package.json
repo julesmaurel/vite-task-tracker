@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"cd server && npm i && npm run start\" \"cd frontend && npm i && npm run start\" ",
-    "build": "cd frontend && npm run build"
+    "build": "cd frontend && npm i && npm run build"
   },
   "author": "Jules Maurel",
   "license": "ISC",
