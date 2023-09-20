@@ -4,8 +4,9 @@
   "description": "task tracker with MERN stack",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd server && npm i && npm run start\" \"cd frontend && npm i && npm run start\" ",
-    "build": "cd frontend && npm i && npm run build && cd ../server && npm i && node server.mjs"
+    "start": "cd ../server && npm i && node server.mjs",
+    "build": "cd frontend && npm i && npm run build",
+    "dev": "concurrently \"cd server && npm i && npm run start\" \"cd frontend && npm i && npm run start\""
   },
   "author": "Jules Maurel",
   "license": "ISC",
