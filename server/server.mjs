@@ -1,6 +1,7 @@
 import express from "express";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from "cors";
 import "./loadEnvironment.mjs";
 import router from "./routes/tasks.mjs";
 import db, { connectDB} from "./db/conn.mjs";
@@ -11,6 +12,12 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const corsOptions = {
+  origin: ["http://localhost:3000","http://localhost:3001", process.env.CYCLIC_URL, process.env.RENDER_URL],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/tasks", router);
