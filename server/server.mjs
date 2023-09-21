@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const corsOptions = {
-  origin: ["http://localhost:3000","http://localhost:3001", process.env.CYCLIC_URL, process.env.RENDER_URL],
+  origin: ["http://localhost:3000","http://localhost:3001", process.env.BASE_URL],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }
 
