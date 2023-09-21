@@ -6,11 +6,14 @@ import Footer from "./components/Footer";
 import ResetButton from "./components/ResetButton";
 import { tasks as Backup } from "../db-backup.json";
 
-const serverPort = process.env.PORT;
+const serverPort = import.meta.env.VITE_SERVER_PORT;
+console.log("Server port: ", serverPort);
+console.log("Base URL: ", import.meta.env.BASE_URL);
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
+  console.log(`${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks`);
 
   useEffect(() => {
     const getTasks = async () => {
@@ -23,7 +26,9 @@ function App() {
 
   //Fetch tasks
   const fetchTasks = async () => {
-    const response = await fetch(`${process.env.BASE_URL}:${serverPort}/tasks`);
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks`
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -35,7 +40,7 @@ function App() {
   //Fetch a singular task
   const fetchTask = async (id) => {
     const response = await fetch(
-      `${process.env.BASE_URL}:${serverPort}/tasks/${id}`
+      `${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks/${id}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -46,7 +51,7 @@ function App() {
 
   //Delete task
   const deleteTask = async (id) => {
-    await fetch(`${process.env.BASE_URL}:${serverPort}/tasks/${id}`, {
+    await fetch(`${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks/${id}`, {
       method: "DELETE",
     });
     setTasks(tasks.filter((task) => task._id !== id));
@@ -65,7 +70,7 @@ function App() {
     const taskToToggle = await fetchTask(id);
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
-    await fetch(`${process.env.BASE_URL}:${serverPort}/tasks/${id}`, {
+    await fetch(`${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks/${id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -81,31 +86,41 @@ function App() {
 
   //Add task
   const addTask = async (task) => {
-    const res = await fetch(`${process.env.BASE_URL}:${serverPort}/tasks`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(task),
-    });
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(task),
+      }
+    );
     const data = await res.json();
     if (!data.acknowledged) {
       throw new Error("Failed to create task");
     }
-    setTasks([...tasks, task]);
+    const newTask = {
+      ...task,
+      _id: data.insertedId,
+    };
+    setTasks([...tasks, newTask]);
   };
 
   //copy backup
   const copyBackup = async () => {
     for (let i = 0; i <= Backup.length - 1; i++) {
       console.log(i);
-      const res = await fetch(`${process.env.BASE_URL}:${serverPort}/tasks`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(Backup[i]),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}:${serverPort}/tasks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(Backup[i]),
+        }
+      );
       const data = await res.json();
       setTasks([...tasks, data]);
     }
