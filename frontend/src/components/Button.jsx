@@ -6,6 +6,7 @@ const Button = ({ color, text, onClick }) => {
       className="btn"
       style={{ backgroundColor: color }}
       onClick={onClick}
+      data-testid="addButton"
     >
       {text}
     </button>

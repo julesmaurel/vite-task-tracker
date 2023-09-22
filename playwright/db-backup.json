@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Practice JS skills",
+      "day": "September 21st at 2:30pm",
+      "reminder": false
+    },
+    {
+      "id": 2,
+      "text": "Connect to MongoDB",
+      "day": "August 29thh at 1:30pm",
+      "reminder": true
+    },
+    {
+      "id": 3,
+      "text": "Deploy on Render",
+      "day": "April 17th at 3:30pm",
+      "reminder": false
+    }
+  ]
+}

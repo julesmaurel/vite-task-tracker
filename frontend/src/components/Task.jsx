@@ -18,6 +18,7 @@ const Task = ({ task, onDelete, onToggle }) => {
       onDoubleClick={() => onToggle(task._id)}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      data-testid="task"
     >
       <h3>
         {task.text}
@@ -25,6 +26,7 @@ const Task = ({ task, onDelete, onToggle }) => {
           <FaTimes
             style={{ color: "red", cursor: "pointer" }}
             onClick={() => onDelete(task._id)}
+            data-testid="deleteIcon"
           />
         )}
       </h3>
