@@ -5,8 +5,11 @@ const data = require('../db-backup.json')
 test.describe('Task tracker tests', () => {
 
   test.beforeEach(async ({ page }) => {
+    // reset the board before each tests
     await page.goto('/');
-    await page.waitForTimeout(1000);
+    await page.getByTestId('resetButton').click().then(() =>{
+      page.waitForTimeout(2000)
+    })
   });
 
   test('Create a task', async ({ page }) => {
@@ -18,12 +21,27 @@ test.describe('Task tracker tests', () => {
     await page.getByTestId('taskTime').fill(taskTime)
     await page.getByTestId('taskReminder').click()
     await page.getByTestId('saveNewTask').click()
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1000)
     
-    const lastCreatedTask = await page.getByTestId('task').last();
-    expect(lastCreatedTask).toHaveText(taskName + taskTime);
-    expect(lastCreatedTask).toHaveClass('task reminder')
+    const lastCreatedTask = await page.getByText(taskName + taskTime).first()
+    await expect(lastCreatedTask).toBeVisible()
+    await expect(lastCreatedTask).toHaveClass('task reminder')
   });
+
+  test('Toggle reminder on and off', async({page}) => {
+    await page.getByTestId('task').first().dblclick()
+    const taskToModify = page.getByTestId('task').first()
+    await expect(taskToModify).toHaveClass('task reminder')
+  })
+
+  test('Delete an individual task', async({page}) => {
+    await page.getByTestId('task').first().hover().then(() => {
+      page.getByTestId('deleteIcon').click()
+    })
+    await page.waitForTimeout(1000)
+    const count = await page.getByTestId('task').count();
+    await expect(count).toBe(2);
+  })
 
   test('Reset tasks', async ({ page }) => {    
     // Click on the reset button
